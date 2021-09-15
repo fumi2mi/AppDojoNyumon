@@ -1,8 +1,8 @@
 //
 //  ViewController.swift
-//  ValuePassingWithNavigationController
+//  SegueWithConditionSample
 //
-//  Created by Fumitaka Imamura on 2021/09/14.
+//  Created by Fumitaka Imamura on 2021/09/15.
 //
 
 import UIKit
@@ -15,18 +15,24 @@ class ViewController: UIViewController {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
     }
-
-    @IBAction func exit(segue: UIStoryboardSegue) {}
     
     override func prepare(for segue: UIStoryboardSegue, sender: Any?) {
         if segue.identifier == "NextSegue" {
             let nav = segue.destination as? UINavigationController
-            if let green = nav?.topViewController as? GreenViewController {
-                green.greenText = textField.text ?? ""
-            }
-            self.textField.text = ""
+            let nextVC = nav?.topViewController as? NextViewController
+            nextVC?.num = textField.text ?? ""
         }
     }
+
+    @IBAction func buttonPressed(_ sender: Any) {
+        if let num = Int(textField.text ?? "") {
+            if num % 2 == 0 {
+                self.performSegue(withIdentifier: "NextSegue", sender: sender)
+            }
+        }
+    }
+    
+    @IBAction func exit(segue: UIStoryboardSegue) { }
 
 }
 
